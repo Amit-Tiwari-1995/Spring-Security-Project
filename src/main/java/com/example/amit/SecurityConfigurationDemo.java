@@ -8,22 +8,22 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+//@EnableWebSecurity
+public class SecurityConfigurationDemo extends WebSecurityConfigurerAdapter {
 
 	public void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser("amit").password("amit").roles("USER").and().withUser("ajay")
 				.password("ajay").roles("ADMIN");
 	}
 
-	@Bean
+//	@Bean
 	public PasswordEncoder getInstancePassword() {
 		return NoOpPasswordEncoder.getInstance();
 	}
 
 	public void configure(HttpSecurity http) throws Exception {
 
-		http.authorizeRequests().antMatchers("/home").hasAnyRole("USER","ADMIN").antMatchers("/user").hasRole("USER")
+		http.httpBasic().and().authorizeRequests().antMatchers("/home").hasAnyRole("USER","ADMIN").antMatchers("/user").hasRole("USER")
 		.antMatchers("/admin").hasRole("ADMIN").and()
 				.formLogin();
 
